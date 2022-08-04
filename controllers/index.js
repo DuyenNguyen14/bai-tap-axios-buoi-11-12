@@ -60,7 +60,10 @@ document.querySelector("#btnCreateProduct").onclick = () => {
     // success
     promise.then(result => {
         console.log('result', result);
-        getProductApi()
+        getProductApi();
+        for (let input of arrInput) {
+            input.value = "";
+        }
     });
     // fail
     promise.catch(error => {
@@ -134,6 +137,27 @@ document.querySelector("#btnUpdateProduct").onclick = () => {
     // fail
     promise.catch(error => {
         console.log('error', error);
+    })
+}
+
+// GET search product by name
+document.querySelector("#btnSearchProduct").onclick = () => {
+    // get data from search bar
+    let prodNameSearch = document.querySelector("#searchBar").value;
+    console.log(prodNameSearch);
+    // call api 
+    let promise = axios({
+        url: 'http://svcy.myclass.vn/api/Product/SearchByName?name=' + prodNameSearch,
+        method: 'GET'
+    });
+    // success
+    promise.then(result => {
+        console.log('result', result.data);
+        renderTblProduct(result.data);
+    });
+    // fail
+    promise.catch(error => {
+        console.log('error', error.response.data);
     })
 }
 
